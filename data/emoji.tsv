@@ -1,0 +1,345 @@
+# Unicode 絵文字 厳選版
+#
+#   よみ(カンマ区切りで複数)	絵文字	分類	備考
+#
+# よみの方針
+#   - 呼び方が複数ある絵文字には、そのどれからでも引けるようによみを並べる
+#     （😀 なら わらう / にこにこ / えがお）
+#   - 色や向きだけが違う絵文字は、別のよみを作らずに同じよみの候補に並べる
+#     （はーと → ❤️ 💙 💚 💛 💜 🖤 🤍、ゆびさし → 👉 👈 👆 👇）
+#   - よみが他とぶつかっても構わない。候補として並ぶだけ
+#
+# ・よみにプレフィックス(既定 "：")は書かない。ビルド時に付く。
+# ・よみはひらがなで書く。濁点付きの "ゔ" は ATOK のよみに使えないため
+#   build.py が "う゛" に展開する。
+# ・ZWJ(複合絵文字)や肌の色の修飾は環境差が大きいので最小限にしてある。
+
+# ---------------------------------------------------------------- 顔
+わらう,にこにこ,えがお	😀	顔	grinning face
+にっこり,ほほえみ	😊	顔	smiling face with smiling eyes
+おおわらい,ばくしょう	😂	顔	face with tears of joy
+わらいころげる,ろふる	🤣	顔	rolling on the floor laughing
+にやり,にやにや	😏	顔	smirking face
+うれしい,きらきら	🤩	顔	star-struck
+すき,こいする	😍	顔	smiling face with heart-eyes
+てれる	🥰	顔	smiling face with hearts
+ういんく	😉	顔	winking face
+てれわらい	😅	顔	grinning face with sweat
+あせ,あせる	😓	顔	downcast face with sweat
+かなしい,しょんぼり	😢	顔	crying face
+なく,おおなき	😭	顔	loudly crying face
+おこる,いかり	😠	顔	angry face
+げきおこ,ぶちぎれ	😡	顔	pouting face
+こまる,こまった	😖	顔	confounded face
+かんがえる,こうさつ	🤔	顔	thinking face
+むひょうじょう,まじめ	😐	顔	neutral face
+びみょう,なんとも	😑	顔	expressionless face
+めをそらす,めそらし	🙄	顔	face with rolling eyes
+おどろく,びっくり	😲	顔	astonished face
+がーん,しょっく	😱	顔	face screaming in fear
+ねむい,ねむる	😴	顔	sleeping face
+ぐったり,つかれた	😩	顔	weary face
+へとへと	🥱	顔	yawning face
+かぜ,ますく	😷	顔	face with medical mask
+ねつ,はつねつ	🤒	顔	face with thermometer
+きもちわるい,はきけ	🤢	顔	nauseated face
+めがね,おたく	🤓	顔	nerd face
+さんぐらす,どや	😎	顔	smiling face with sunglasses
+おかね,かねめ	🤑	顔	money-mouth face
+しーっ,ないしょ	🤫	顔	shushing face
+くちをとじる,むげん	🤐	顔	zipper-mouth face
+うそ,ぴのきお	🤥	顔	lying face
+ひやあせ	😬	顔	grimacing face
+おねがいかお,ぱぴー	🥺	顔	pleading face
+かんぱい,ぱーてぃー	🥳	顔	partying face
+てんし	😇	顔	smiling face with halo
+あくま,いたずら	😈	顔	smiling face with horns
+どくろ,しんだ	💀	顔	skull
+うんこ	💩	顔	pile of poo
+おばけ,ゆうれい	👻	顔	ghost
+えいりあん,うちゅうじん	👽	顔	alien
+ろぼっと	🤖	顔	robot
+ぴえろ,くらうん	🤡	顔	clown face
+ねこ,ねこわらい	😸	顔	grinning cat with smiling eyes
+ねこ,ねこなき	😿	顔	crying cat
+
+# ---------------------------------------------------------------- 手・体
+いいね,ぐっど,さんせい	👍	手	thumbs up
+だめ,ばっど,はんたい	👎	手	thumbs down
+はくしゅ,ぱちぱち	👏	手	clapping hands
+おねがい,かんしゃ,ありがとう	🙏	手	folded hands
+てをふる,ばいばい,やあ	👋	手	waving hand
+おっけー,おーけー	👌	手	OK hand
+ぴーす,ぶい	✌	手	victory hand
+# 向きは候補で選ぶ
+ゆびさし,これ	👉	手	backhand index pointing right
+ゆびさし	👈	手	backhand index pointing left
+ゆびさし,ちゅうもく	👆	手	backhand index pointing up
+ゆびさし	👇	手	backhand index pointing down
+ちから,きんにく	💪	手	flexed biceps
+にぎりこぶし,ぐー	✊	手	raised fist
+あくしゅ	🤝	手	handshake
+てをあげる,はい	🙋	手	person raising hand
+ばつぽーず	🙅	手	person gesturing NO
+まるぽーず	🙆	手	person gesturing OK
+どげざ,おじぎ	🙇	手	person bowing
+おてあげ,しらない	🤷	手	person shrugging
+め,みる	👀	体	eyes
+め,めだま	👁️	体	eye
+のう,のうみそ	🧠	体	brain
+
+# ---------------------------------------------------------------- 気持ち・記号
+# 色は候補で選ぶ
+はーと,すき	❤️	記号	red heart
+はーと	💙	記号	blue heart
+はーと	💚	記号	green heart
+はーと	💛	記号	yellow heart
+はーと	💜	記号	purple heart
+はーと	🖤	記号	black heart
+はーと	🤍	記号	white heart
+はーと,きらはーと	💖	記号	sparkling heart
+はーと,しんぞうばくばく	💓	記号	beating heart
+しつれん,はーとわれ	💔	記号	broken heart
+きらきら,すぱーくる	✨	記号	sparkles
+ひらめき,でんきゅう,あいであ	💡	記号	light bulb
+ばくだん,ばくはつ	💥	記号	collision
+ほのお,もえる,えもい	🔥	記号	fire
+かみなり,いなずま	⚡	記号	high voltage
+みず,しずく,あせ	💧	記号	droplet
+ふきだし,はつげん	💬	記号	speech balloon
+かんがえふきだし	💭	記号	thought balloon
+ねむる,ずー	💤	記号	zzz
+おんぷ,おんがく	🎵	記号	musical note
+おんぷ,れんぷ	🎶	記号	musical notes
+びっくりまーく,かんたん	❗	記号	exclamation mark
+はてな,ぎもん	❓	記号	question mark
+ちぇっく,ちぇっくまーく,かんりょう	✅	記号	check mark button
+ばつ,ばつまーく,えらー	❌	記号	cross mark
+けいこく,ちゅうい	⚠️	記号	warning
+きんし,のー	🚫	記号	prohibited
+こうじちゅう,さぎょうちゅう	🚧	記号	construction
+しんごう	🚦	記号	traffic light
+しんごう,すてーたす	🚥	記号	horizontal traffic light
+しんこうちゅう,ろーでぃんぐ	🔄	記号	counterclockwise arrows
+あたらしい,にゅー	🆕	記号	NEW button
+むりょう,ふりー	🆓	記号	FREE button
+おーけーまーく	🆗	記号	OK button
+えすおーえす,たすけて	🆘	記号	SOS button
+けんさく,かくにん	🔍	記号	magnifying glass
+# 施錠の状態は候補で選ぶ
+かぎ,ろっく	🔒	記号	locked
+かぎ,あんろっく	🔓	記号	unlocked
+かぎ,きー	🔑	記号	key
+かぎ,せきゅりてぃ	🔐	記号	locked with key
+べる,つうち	🔔	記号	bell
+みゅーと,つうちおふ	🔕	記号	bell with slash
+でんげん,ぷらぐ	🔌	記号	electric plug
+でんち,ばってりー	🔋	記号	battery
+
+# ---------------------------------------------------------------- 仕事・開発
+ぴーしー,ぱそこん,のーとぱそこん	💻	開発	laptop
+きーぼーど	⌨️	開発	keyboard
+まうす	🖱️	開発	computer mouse
+すまほ,けいたい	📱	開発	mobile phone
+ばぐ,むし	🐛	開発	bug
+ねじ,せってい	🔧	開発	wrench
+はぐるま,せってい	⚙️	開発	gear
+かなづち,しゅうり	🔨	開発	hammer
+くぎづけ,ぴん	📌	開発	pushpin
+くりっぷ,てんぷ	📎	開発	paperclip
+ふぉるだ,ふぉるだー	📁	開発	file folder
+ふぁいる,しょるい	📄	開発	page facing up
+めも,のーと	📝	開発	memo
+ほん,どきゅめんと	📖	開発	open book
+ぶっくまーく,しおり	🔖	開発	bookmark
+# 上下は候補で選ぶ
+ぐらふ,じょうしょう,うりあげ	📈	開発	chart increasing
+ぐらふ,かこう	📉	開発	chart decreasing
+ぐらふ,ぼうぐらふ,とうけい	📊	開発	bar chart
+かれんだー,にってい	📅	開発	calendar
+とけい,じかん	🕐	開発	clock
+すなどけい	⏳	開発	hourglass not done
+めーる,ゆうびん	📧	開発	e-mail
+そうしん,ぺーぱーひこうき	📤	開発	outbox tray
+でんわ,つうわ	📞	開発	telephone receiver
+すぴーかー,おんせい	🔊	開発	speaker high volume
+かめら,しゃしん	📷	開発	camera
+びでお,どうが	🎥	開発	movie camera
+かーど,ぷろじぇくと	🗂️	開発	card index dividers
+ごみばこ,さくじょ	🗑️	開発	wastebasket
+けいさんき,でんたく	🧮	開発	abacus
+てすと,じっけん,ふらすこ	🧪	開発	test tube
+けんびきょう,ちょうさ	🔬	開発	microscope
+ろけっと,りりーす,でぷろい	🚀	開発	rocket
+ぱっけーじ,はこ,こづつみ	📦	開発	package
+らべる,たぐ	🏷️	開発	label
+めだる,いっとうしょう	🥇	開発	1st place medal
+とろふぃー,ゆうしょう	🏆	開発	trophy
+たーげっと,もくひょう,まと	🎯	開発	bullseye
+ぱずる,くみあわせ	🧩	開発	puzzle piece
+まほう,まじっく	🪄	開発	magic wand
+しゅりけん,ちょうせい	🔩	開発	nut and bolt
+でーたべーす,さーばー	🗄️	開発	file cabinet
+いんふら,こうじょう	🏭	開発	factory
+えんぴつ,かく	✏️	開発	pencil
+ぺん,まんねんひつ	🖊️	開発	pen
+くれよん	🖍️	開発	crayon
+はさみ,きりとり	✂️	開発	scissors
+じょうぎ,せっけい	📐	開発	triangular ruler
+ものさし	📏	開発	straight ruler
+ちず,まっぷ	🗺️	開発	world map
+# 地域は候補で選ぶ
+ちきゅう,あーす,ぐろーばる	🌍	開発	globe showing Europe-Africa
+ちきゅう,にほんがわ	🌏	開発	globe showing Asia-Australia
+ちきゅう,あみ,ねっとわーく,うぇぶ	🌐	開発	globe with meridians
+でんぱ,あんてな,つうしん	📡	開発	satellite antenna
+たて,ぼうぎょ,せきゅりてぃ	🛡️	開発	shield
+けいさつ,かんし	🚨	開発	police car light
+
+# ---------------------------------------------------------------- 自然・天気
+たいよう,はれ	☀️	自然	sun
+くもり,くも	☁️	自然	cloud
+あめ,あまふり	🌧️	自然	cloud with rain
+ゆき,ゆきふり	❄️	自然	snowflake
+ゆきだるま	⛄	自然	snowman
+かさ,あまぐ	☂️	自然	umbrella
+にじ	🌈	自然	rainbow
+# 満ち欠けは候補で選ぶ
+つき,みかづき	🌙	自然	crescent moon
+つき,まんげつ	🌕	自然	full moon
+ほし,すたー	⭐	自然	star
+りゅうせい,ながれぼし	🌠	自然	shooting star
+やま,さんがく	⛰️	自然	mountain
+ふじさん	🗻	自然	mount fuji
+うみ,なみ	🌊	自然	water wave
+き,もり	🌳	自然	deciduous tree
+さくら	🌸	自然	cherry blossom
+はな,ちゅーりっぷ	🌷	自然	tulip
+はな,ばら	🌹	自然	rose
+はな,ひまわり	🌻	自然	sunflower
+よつば,くろーばー	🍀	自然	four leaf clover
+もみじ,かえで	🍁	自然	maple leaf
+たいふう,うずまき	🌀	自然	cyclone
+かざん,ふんか	🌋	自然	volcano
+
+# ---------------------------------------------------------------- 生き物
+いぬ	🐶	生き物	dog face
+ねこ	🐱	生き物	cat face
+ねずみ	🐭	生き物	mouse face
+うさぎ	🐰	生き物	rabbit face
+きつね	🦊	生き物	fox
+くま	🐻	生き物	bear
+ぱんだ	🐼	生き物	panda
+こあら	🐨	生き物	koala
+とら	🐯	生き物	tiger face
+らいおん	🦁	生き物	lion
+うし	🐮	生き物	cow face
+ぶた	🐷	生き物	pig face
+かえる	🐸	生き物	frog
+さる	🐵	生き物	monkey face
+とり,ことり	🐦	生き物	bird
+ぺんぎん	🐧	生き物	penguin
+ふくろう	🦉	生き物	owl
+さかな	🐟	生き物	fish
+いるか	🐬	生き物	dolphin
+くじら	🐳	生き物	whale
+たこ	🐙	生き物	octopus
+ちょう,ちょうちょ	🦋	生き物	butterfly
+はち,みつばち	🐝	生き物	honeybee
+へび	🐍	生き物	snake
+かめ	🐢	生き物	turtle
+きょうりゅう	🦕	生き物	sauropod
+うま	🐴	生き物	horse face
+ひつじ	🐑	生き物	ewe
+にわとり	🐔	生き物	chicken
+ひよこ	🐥	生き物	front-facing baby chick
+かに	🦀	生き物	crab
+かたつむり	🐌	生き物	snail
+あり	🐜	生き物	ant
+
+# ---------------------------------------------------------------- 食べ物
+こーひー,おちゃ	☕	食べ物	hot beverage
+びーる,かんぱい	🍺	食べ物	beer mug
+さけ,にほんしゅ	🍶	食べ物	sake
+わいん	🍷	食べ物	wine glass
+けーき,たんじょうび	🎂	食べ物	birthday cake
+けーき,しょーとけーき	🍰	食べ物	shortcake
+ちょこ,ちょこれーと	🍫	食べ物	chocolate bar
+あいす,あいすくりーむ	🍦	食べ物	soft ice cream
+くっきー	🍪	食べ物	cookie
+おにぎり	🍙	食べ物	rice ball
+すし,おすし	🍣	食べ物	sushi
+らーめん	🍜	食べ物	steaming bowl
+かれー	🍛	食べ物	curry rice
+はんばーがー	🍔	食べ物	hamburger
+ぴざ	🍕	食べ物	pizza
+ぱん,しょくぱん	🍞	食べ物	bread
+たまご	🥚	食べ物	egg
+りんご	🍎	食べ物	red apple
+ばなな	🍌	食べ物	banana
+いちご	🍓	食べ物	strawberry
+ぶどう	🍇	食べ物	grapes
+すいか	🍉	食べ物	watermelon
+みかん,おれんじ	🍊	食べ物	tangerine
+とまと	🍅	食べ物	tomato
+にんじん	🥕	食べ物	carrot
+ごはん,おこめ	🍚	食べ物	cooked rice
+べんとう,おべんとう	🍱	食べ物	bento box
+だんご,おだんご	🍡	食べ物	dango
+ぽっぷこーん	🍿	食べ物	popcorn
+
+# ---------------------------------------------------------------- 乗り物・場所
+くるま,じどうしゃ	🚗	場所	automobile
+でんしゃ	🚃	場所	railway car
+しんかんせん	🚅	場所	bullet train
+ひこうき	✈️	場所	airplane
+ふね	🚢	場所	ship
+じてんしゃ	🚲	場所	bicycle
+ばす	🚌	場所	bus
+たくしー	🚕	場所	taxi
+いえ,じたく	🏠	場所	house
+びる,かいしゃ	🏢	場所	office building
+がっこう	🏫	場所	school
+びょういん	🏥	場所	hospital
+ぎんこう	🏦	場所	bank
+こんびに	🏪	場所	convenience store
+じんじゃ	⛩️	場所	shinto shrine
+てんと,きゃんぷ	⛺	場所	tent
+しろ,おしろ	🏰	場所	castle
+とうきょうたわー	🗼	場所	Tokyo tower
+
+# ---------------------------------------------------------------- イベント・その他
+ぱーてぃー,くらっかー,おめでとう	🎉	その他	party popper
+ふうせん,おいわい	🎈	その他	balloon
+ぷれぜんと,ぎふと	🎁	その他	wrapped gift
+くりすます,くりすますつりー	🎄	その他	Christmas tree
+はなび	🎆	その他	fireworks
+さんたくろーす	🎅	その他	Santa Claus
+はろうぃん,かぼちゃ	🎃	その他	jack-o-lantern
+ちゅうもく,めがほん,こくち	📢	その他	loudspeaker
+まいく,はっぴょう	🎤	その他	microphone
+げーむ,こんとろーらー	🎮	その他	video game
+さいころ	🎲	その他	game die
+おんがく,ぎたー	🎸	その他	guitar
+ほん,としょ	📚	その他	books
+しんぶん,にゅーす	📰	その他	newspaper
+おかね,さつたば	💰	その他	money bag
+おかね,くれじっとかーど	💳	その他	credit card
+ちけっと	🎫	その他	ticket
+くすり,やく	💊	その他	pill
+ちゅうしゃ,わくちん	💉	その他	syringe
+でんわ,こていでんわ	☎️	その他	telephone
+とけい,うでどけい	⌚	その他	watch
+てれび	📺	その他	television
+らじお	📻	その他	radio
+ぱれっと,いろ	🎨	その他	artist palette
+えいが,くらっぱー	🎬	その他	clapper board
+すぽーつ,さっかー	⚽	その他	soccer ball
+やきゅう	⚾	その他	baseball
+ばすけ,ばすけっとぼーる	🏀	その他	basketball
+てにす	🎾	その他	tennis
+ごるふ	⛳	その他	flag in hole
+おんせん,ゆ	♨️	その他	hot springs
+はた,にほんのはた,にほん	🇯🇵	その他	flag Japan
+はた,しろはた,こうさん	🏳️	その他	white flag
+はた,ふらぐ	🚩	その他	triangular flag

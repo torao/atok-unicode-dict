@@ -1,0 +1,109 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "リリースするタグ名（例: v1.0.0）"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: タグ名を決める
+        id: tag
+        run: echo "name=${{ inputs.tag || github.ref_name }}" >> "$GITHUB_OUTPUT"
+
+      - name: ビルド
+        run: |
+          set -eu
+          mkdir -p build
+          for level in core standard full; do
+            python build.py --level "$level" --out "build/$level" \
+              | tee "build/$level.summary.txt"
+          done
+          python build.py --level core --reading kana --out build/core-kana \
+            | tee build/core-kana.summary.txt
+
+      - name: 単語ファイルを検査
+        run: python tools/verify_dist.py build/core build/standard build/full build/core-kana
+
+      - name: 配布物をまとめる
+        run: |
+          set -eu
+          mkdir -p assets
+          # すぐ取り込めるように、既定ビルドの単語ファイルは単体でも置く
+          cp build/core/atok-math.txt  assets/atok-math.txt
+          cp build/core/atok-emoji.txt assets/atok-emoji.txt
+          cp build/core/atok-all.txt   assets/atok-all.txt
+          for level in core standard full core-kana; do
+            (cd "build/$level" && zip -q -r "../../assets/atok-dict-$level.zip" .)
+          done
+          ls -l assets
+
+      - name: リリースノートを作る
+        run: |
+          set -eu
+          {
+            echo "ATOK 用 Unicode 絵文字・数学記号辞書 ${{ steps.tag.outputs.name }}"
+            echo
+            echo "## 取り込み方"
+            echo
+            echo '1. 辞書ユーティリティの[辞書]→[新規作成]で専用の `.dic` を作る'
+            echo '2. ATOK プロパティ →[辞書・学習]で**標準辞書セット**にその辞書を追加する'
+            echo '3. [一括処理]→[単語一括処理]で、**登録先にその辞書を選んで** `atok-math.txt` を読み込む'
+            echo
+            echo 'よみは `:Infty` `:Bbr` `:Eacute` `:わらう` のようにコロンで始める。'
+            echo '大文字始まりの英字よみを使うため、ATOK プロパティ →[入力・変換]→[英語]の'
+            echo '「英語入力ではスペースバーで空白を入力する」をオフにしておくこと。'
+            echo
+            echo "## 収録量"
+            echo
+            echo '| ファイル | 内容 |'
+            echo '|---|---|'
+            echo '| `atok-math.txt` / `atok-emoji.txt` / `atok-all.txt` | 既定ビルド（core）の単語ファイル |'
+            echo '| `atok-dict-core.zip` | 既定。日常的に使う範囲 |'
+            echo '| `atok-dict-standard.zip` | unicode-math 固有の記号と書体の別名も |'
+            echo '| `atok-dict-full.zip` | 別名も全部 |'
+            echo '| `atok-dict-core-kana.zip` | 大文字始まりが使えない環境向け（よみ `:いんｆｔｙ`） |'
+            echo
+            echo '各 zip には単語ファイルのほか、動作確認用の `atok-probe*.txt` と'
+            echo '全エントリの一覧 `master.tsv` が入っている。'
+            echo
+            echo "## ビルド結果"
+            echo
+            for level in core standard full core-kana; do
+              echo "### $level"
+              echo '```'
+              cat "build/$level.summary.txt"
+              echo '```'
+            done
+          } > release-notes.md
+          cat release-notes.md
+
+      - name: リリースを作成
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.name }}
+          name: ${{ steps.tag.outputs.name }}
+          body_path: release-notes.md
+          files: |
+            assets/atok-math.txt
+            assets/atok-emoji.txt
+            assets/atok-all.txt
+            assets/atok-dict-core.zip
+            assets/atok-dict-standard.zip
+            assets/atok-dict-full.zip
+            assets/atok-dict-core-kana.zip

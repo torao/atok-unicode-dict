@@ -1,0 +1,263 @@
+# 数学記号・技術記号の手書きデータ
+#
+#   よみ(カンマ区切りで複数)	単語	分類	備考
+#
+# ・よみにプレフィックス(既定 ":")は書かない。ビルド時に付く。
+# ・よみに使えるのは ひらがな / 半角英数 / # $ % & * + - / : ; < = > @ _ ' ^ ~ `
+#   括弧・ピリオド・感嘆符などは ATOK のよみに使えないので避ける。
+# ・ギリシャ文字・上付き・下付き・数学英数字記号(𝔸 𝒜 𝔄 …)・関数名は
+#   build.py が Unicode から機械生成するのでここには書かない。
+
+# ---------------------------------------------------------------- 演算子
+sum,そうわ,しぐま	∑	演算子	総和
+prod,そうせき,そうじょう	∏	演算子	総乗
+coprod	∐	演算子	余積
+int,せきぶん,いんてぐらる	∫	演算子	積分
+iint,にじゅうせきぶん	∬	演算子	二重積分
+iiint,さんじゅうせきぶん	∭	演算子	三重積分
+oint,しゅうせんせきぶん	∮	演算子	周回積分
+partial,へんびぶん	∂	演算子	偏微分
+nabla,なぶら,こうばい	∇	演算子	ナブラ
+sqrt,るーと,へいほうこん	√	演算子	平方根
+cbrt,りっぽうこん	∛	演算子	立方根
+fourthroot	∜	演算子	四乗根
+pm,ぷらすまいなす	±	演算子	プラスマイナス
+mp,まいなすぷらす	∓	演算子	マイナスプラス
+times,かける,せき	×	演算子	乗算
+div,わる	÷	演算子	除算
+cdot,てんせき,なかてん	⋅	演算子	ドット積
+bullet	∙	演算子	ビュレット演算子
+ast	∗	演算子	アスタリスク演算子
+star	⋆	演算子	スター演算子
+circ,ごうせい	∘	演算子	合成
+oplus,ちょくわ	⊕	演算子	直和
+ominus	⊖	演算子	丸マイナス
+otimes,てんそるせき,ちょくせき	⊗	演算子	テンソル積
+oslash	⊘	演算子	丸スラッシュ
+odot	⊙	演算子	丸ドット
+boxplus	⊞	演算子	角プラス
+boxtimes	⊠	演算子	角かける
+wedge,がいせき,くさび	∧	演算子	ウェッジ
+vee	∨	演算子	ベクトル和
+setminus,さぶん	∖	演算子	差集合
+amalg	⨿	演算子	アマルガム
+bigcup,わしゅうごう	⋃	演算子	大きい和集合
+bigcap,せきしゅうごう	⋂	演算子	大きい積集合
+bigoplus	⨁	演算子	大きい直和
+bigotimes	⨂	演算子	大きいテンソル積
+infty,むげんだい	∞	演算子	無限大
+prime,ぷらいむ,びぶん	′	演算子	プライム
+dprime	″	演算子	ダブルプライム
+tprime	‴	演算子	トリプルプライム
+backprime	‵	演算子	逆プライム
+degree,ど,かくど	°	演算子	度
+minute,ふん	′	演算子	分
+second,びょう	″	演算子	秒
+percent,ぱーせんと	%	演算子	パーセント
+permil,ぱーみる	‰	演算子	パーミル
+permyriad	‱	演算子	パーミリアド
+surd	√	演算子	根号
+ratio,ひ	∶	演算子	比
+proportion	∷	演算子	比例
+qed,しょうめいおわり	∎	演算子	証明終わり
+blacksquareqed	□	演算子	白い証明終わり記号
+therefore,ゆえに	∴	演算子	ゆえに
+because,なぜなら	∵	演算子	なぜならば
+
+# ---------------------------------------------------------------- 関係子
+neq,ne,ひとしくない	≠	関係子	等しくない
+leq,le,いか	≤	関係子	以下
+geq,ge,いじょう	≥	関係子	以上
+leqslant	⩽	関係子	以下(斜線)
+geqslant	⩾	関係子	以上(斜線)
+ll,じゅうぶんちいさい	≪	関係子	非常に小さい
+gg,じゅうぶんおおきい	≫	関係子	非常に大きい
+approx,およそ,ほぼひとしい	≈	関係子	ほぼ等しい
+simeq	≃	関係子	漸近的に等しい
+sim,そうじ	∼	関係子	相似
+cong,ごうどう	≅	関係子	合同
+equiv,ごうどうしき,ていぎ	≡	関係子	合同・恒等
+nequiv	≢	関係子	合同でない
+propto,ひれい	∝	関係子	比例
+doteq,ほぼ	≒	関係子	ほぼ等しい(JIS)
+defeq,ていぎする	≔	関係子	定義
+eqdef	≝	関係子	定義により等しい
+lt,しょうなり	<	関係子	小なり
+gt,だいなり	>	関係子	大なり
+perp,すいちょく,ちょっこう	⊥	関係子	垂直
+parallel,へいこう	∥	関係子	平行
+nparallel	∦	関係子	平行でない
+angle,かく	∠	関係子	角
+measuredangle	∡	関係子	測定角
+sphericalangle	∢	関係子	球面角
+triangle,さんかくけい	△	関係子	三角形
+models,せいりつ	⊨	関係子	充足
+vdash,すいろん	⊢	関係子	導出可能
+nvdash	⊬	関係子	導出不可能
+dashv	⊣	関係子	逆ターンスタイル
+asymp	≍	関係子	漸近的
+between	≬	関係子	between
+precedes	≺	関係子	先行する
+succeeds	≻	関係子	後続する
+preceq	⪯	関係子	先行または等しい
+succeq	⪰	関係子	後続または等しい
+
+# ---------------------------------------------------------------- 集合・論理
+in,ぞくする,げんである	∈	集合	属する
+notin,ぞくさない	∉	集合	属さない
+ni,ふくむげん	∋	集合	元として含む
+subset,ぶぶんしゅうごう	⊂	集合	部分集合
+subseteq	⊆	集合	部分集合または等しい
+nsubset	⊄	集合	部分集合でない
+supset	⊃	集合	上位集合
+supseteq	⊇	集合	上位集合または等しい
+subsetneq,しんぶぶんしゅうごう	⊊	集合	真部分集合
+cup,わしゅうごう,ゆにおん	∪	集合	和集合
+cap,せきしゅうごう,いんたーせくしょん	∩	集合	積集合
+emptyset,くうしゅうごう,から	∅	集合	空集合
+complement,ほしゅうごう	∁	集合	補集合
+forall,すべての,にんい	∀	論理	全称
+exists,そんざいする	∃	論理	存在
+nexists,そんざいしない	∄	論理	非存在
+neg,lnot,ひてい,のっと	¬	論理	否定
+land,かつ,ろんりせき	∧	論理	論理積
+lor,または,ろんりわ	∨	論理	論理和
+xor,はいたてきろんりわ	⊻	論理	排他的論理和
+top,しん	⊤	論理	真
+bot,ぎ	⊥	論理	偽
+aleph,あれふ	ℵ	集合	アレフ
+beth	ℶ	集合	ベート
+
+# ---------------------------------------------------------------- 矢印
+to,rightarrow,みぎやじるし,やじるし	→	矢印	右矢印
+leftarrow,ひだりやじるし	←	矢印	左矢印
+uparrow,うえやじるし	↑	矢印	上矢印
+downarrow,したやじるし	↓	矢印	下矢印
+leftrightarrow,さゆうやじるし	↔	矢印	左右矢印
+updownarrow	↕	矢印	上下矢印
+implies,ならば	⇒	矢印	ならば
+impliedby	⇐	矢印	左向き二重矢印
+iff,どうち,ひつようじゅうぶん	⇔	矢印	同値
+Uparrow	⇑	矢印	上向き二重矢印
+Downarrow	⇓	矢印	下向き二重矢印
+mapsto,しゃぞう	↦	矢印	写像
+longrightarrow	⟶	矢印	長い右矢印
+longleftarrow	⟵	矢印	長い左矢印
+longmapsto	⟼	矢印	長い写像矢印
+longimplies	⟹	矢印	長いならば
+longiff	⟺	矢印	長い同値
+hookrightarrow,うめこみ	↪	矢印	埋め込み
+hookleftarrow	↩	矢印	左鉤矢印
+twoheadrightarrow,ぜんしゃ	↠	矢印	全射
+rightarrowtail,たんしゃ	↣	矢印	単射
+nearrow,みぎうえやじるし	↗	矢印	右上矢印
+searrow,みぎしたやじるし	↘	矢印	右下矢印
+swarrow	↙	矢印	左下矢印
+nwarrow	↖	矢印	左上矢印
+rightleftarrows,へいこう	⇄	矢印	右左矢印
+leftrightarrows	⇆	矢印	左右矢印
+rightleftharpoons,かへん	⇌	矢印	可逆反応
+circlearrowright,じゅんかん	↻	矢印	時計回り
+circlearrowleft	↺	矢印	反時計回り
+nrightarrow	↛	矢印	右矢印の否定
+curvearrowright	↷	矢印	曲がる右矢印
+rightsquigarrow	⇝	矢印	波線矢印
+leadsto	⤳	矢印	leadsto
+
+# ---------------------------------------------------------------- 括弧・区切り
+langle,やまかっこ	⟨	括弧	左山括弧
+rangle	⟩	括弧	右山括弧
+lceil,てんじょう	⌈	括弧	左天井関数
+rceil	⌉	括弧	右天井関数
+lfloor,ゆか,きりすて	⌊	括弧	左床関数
+rfloor	⌋	括弧	右床関数
+llbracket,にじゅうかっこ	⟦	括弧	左二重角括弧
+rrbracket	⟧	括弧	右二重角括弧
+lbrace	｛	括弧	左波括弧(全角)
+rbrace	｝	括弧	右波括弧(全角)
+norm,のるむ	‖	括弧	ノルム
+vert,ぜったいち	|	括弧	縦棒
+mid,わりきる	∣	括弧	割り切る
+nmid,わりきれない	∤	括弧	割り切れない
+dots,ldots,てんてんてん,さんてんりーだー	…	区切り	三点リーダー
+cdots	⋯	区切り	中央の三点
+vdots	⋮	区切り	縦の三点
+ddots	⋱	区切り	斜めの三点
+middot,なかぐろ	·	区切り	中点
+bullet,くろまる	•	区切り	黒丸
+dagger,だがー	†	区切り	ダガー
+ddagger	‡	区切り	ダブルダガー
+section,せつ	§	区切り	セクション
+pilcrow,だんらく	¶	区切り	段落
+numero,ばんごう	№	区切り	ナンバー
+reference,こめじるし	※	区切り	米印
+
+# ---------------------------------------------------------------- 数・単位
+hbar,でぃらっくていすう	ℏ	数	ディラック定数
+ell,える	ℓ	数	筆記体の l
+wp,わいえるしゅとらす	℘	数	ワイエルシュトラス
+imaginary,きょすうたんい	ⅈ	数	虚数単位
+napier,しぜんたいすうのてい	ⅇ	数	ネイピア数
+differentiald,びぶんd	ⅆ	数	微分の d
+realpart	ℜ	数	実部
+imagpart	ℑ	数	虚部
+angstrom,おんぐすとろーむ	Å	単位	オングストローム
+celsius,せっし,ど	℃	単位	摂氏
+fahrenheit,かし	℉	単位	華氏
+ohm,おーむ	Ω	単位	オーム
+micro,まいくろ	µ	単位	マイクロ
+planck	ℎ	数	プランク定数
+half,にぶんのいち	½	分数	1/2
+third,さんぶんのいち	⅓	分数	1/3
+twothirds,さんぶんのに	⅔	分数	2/3
+quarter,よんぶんのいち	¼	分数	1/4
+threequarters,よんぶんのさん	¾	分数	3/4
+fifth,ごぶんのいち	⅕	分数	1/5
+sixth,ろくぶんのいち	⅙	分数	1/6
+eighth,はちぶんのいち	⅛	分数	1/8
+fracslash,ぶんすう	⁄	分数	分数スラッシュ
+
+# ---------------------------------------------------------------- 技術記号
+cmd,こまんど	⌘	技術	コマンドキー
+option,おぷしょん,おると	⌥	技術	オプションキー
+shift,しふと	⇧	技術	シフトキー
+control,こんとろーる	⌃	技術	コントロールキー
+capslock	⇪	技術	Caps Lock
+backspace,ばっくすぺーす	⌫	技術	バックスペース
+delete,でりーと	⌦	技術	デリート
+enter,りたーん,かいぎょう	⏎	技術	リターン
+tab,たぶ	⇥	技術	タブ
+escape,えすけーぷ	⎋	技術	エスケープ
+space,すぺーす	␣	技術	スペース
+eject	⏏	技術	イジェクト
+power,でんげん	⏻	技術	電源
+copyright,ちょさくけん	©	技術	著作権
+registered,とうろくしょうひょう	®	技術	登録商標
+trademark,しょうひょう	™	技術	商標
+servicemark	℠	技術	サービスマーク
+checkmark,ちぇっく,れてん	✓	技術	チェックマーク
+heavycheck,ちぇっく	✔	技術	太いチェック
+ballotx,ばつ	✗	技術	バツ
+heavyballotx,ばつ	✘	技術	太いバツ
+warning,ちゅうい,けいこく	⚠	技術	警告
+radioactive	☢	技術	放射能
+biohazard	☣	技術	生物災害
+recycle,りさいくる	♻	技術	リサイクル
+infinitysign	♾	技術	無限
+
+# ---------------------------------------------------------------- 図形
+blacksquare,しかく	■	図形	黒四角
+whitesquare,しかく	□	図形	白四角
+blackcircle,まる	●	図形	黒丸
+whitecircle,まる	○	図形	白丸
+blacktriangle,さんかく	▲	図形	黒三角
+whitetriangle,さんかく	△	図形	白三角
+blackdiamond,ひしがた	◆	図形	黒菱形
+whitediamond,ひしがた	◇	図形	白菱形
+blackstar,ほし	★	図形	黒星
+whitestar,ほし	☆	図形	白星
+bigcircle,まる	◯	図形	大きい丸
+doublecircle,まる	◎	図形	二重丸
+blocka,ぶろっく	█	図形	ブロック
+shade	░	図形	薄い網掛け
+righttriangle,さんかく,さいせい	▶	図形	右向き三角

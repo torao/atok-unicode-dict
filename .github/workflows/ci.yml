@@ -1,0 +1,37 @@
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: ローマ字変換の再現を確認
+        run: python romaji.py
+
+      - name: 収録量の各段階をビルド
+        run: |
+          python build.py --level core     --out build/core
+          python build.py --level standard --out build/standard
+          python build.py --level full     --out build/full
+          python build.py --level core --reading kana --out build/core-kana
+
+      - name: 単語ファイルを検査
+        run: python tools/verify_dist.py build/core build/standard build/full build/core-kana
+
+      - name: 生成物を残す
+        uses: actions/upload-artifact@v4
+        with:
+          name: atok-dict
+          path: build/
+          retention-days: 14
