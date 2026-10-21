@@ -964,7 +964,8 @@ def expand_readings(entries: list[Entry], modes: list[str]) -> list[Entry]:
     return out
 
 
-def collect(cfg: dict) -> tuple[list[Entry], list[Entry]]:
+def collect(cfg: dict) -> tuple[list[Entry], list[Entry], list[Entry]]:
+    """絵文字・数学記号・アクセント付き文字を別々のリストで返す。"""
     emoji = load_tsv(DATA / "emoji.tsv", "emoji")
 
     math: list[Entry] = []
@@ -975,8 +976,9 @@ def collect(cfg: dict) -> tuple[list[Entry], list[Entry]]:
     math += gen_subscript(cfg["digit_max"])
     math += gen_math_alphabet(cfg)
     math += gen_math_functions(cfg)
-    math += gen_accents()
-    return dedupe_sort(emoji), dedupe_sort(math)
+
+    accent = gen_accents()
+    return dedupe_sort(emoji), dedupe_sort(math), dedupe_sort(accent)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -1005,22 +1007,30 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
 
     out_dir = Path(args.out)
-    emoji, math = collect(LEVELS[args.level])
+    emoji, math, accent = collect(LEVELS[args.level])
     modes = [m.strip() for m in args.reading.split(",") if m.strip()]
     unknown = [m for m in modes if m not in READING_MODES]
     if unknown or not modes:
         p.error(f"--reading に使えるのは {READING_MODES} です: {args.reading}")
     emoji = dedupe_sort(expand_readings(emoji, modes))
     math = dedupe_sort(expand_readings(math, modes))
+    accent = dedupe_sort(expand_readings(accent, modes))
+    # 同じ（よみ, 単語）が複数のファイルに入らないようにする。TeX 表の \L \O
+    # （Ł Ø）のようにアクセント付き文字と重なるものは、アクセント側に寄せる。
+    # 重なったまま両方を取り込むと「登録済み」の行が出力ファイルに出てしまう。
+    accent_keys = {(e.prefixed, e.reading, e.word) for e in accent}
+    math = [e for e in math if (e.prefixed, e.reading, e.word) not in accent_keys]
     emoji, bad_emoji = split_valid(emoji)
     math, bad_math = split_valid(math)
-    bad = bad_emoji + bad_math
-    allv = dedupe_sort(emoji + math)
+    accent, bad_accent = split_valid(accent)
+    bad = bad_emoji + bad_math + bad_accent
+    allv = dedupe_sort(emoji + math + accent)
 
     common = dict(prefix=args.prefix, pos=args.pos,
                   header=not args.no_header, encoding=args.encoding)
     write_atok(emoji, out_dir / "atok-emoji.txt", **common)
     write_atok(math, out_dir / "atok-math.txt", **common)
+    write_atok(accent, out_dir / "atok-accent.txt", **common)
     write_atok(allv, out_dir / "atok-all.txt", **common)
     write_probe(out_dir / "atok-probe.txt", args.prefix, args.encoding)
     write_probe2(out_dir / "atok-probe2.txt", args.pos, args.encoding)
@@ -1043,6 +1053,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"絵文字   : {len(emoji):>6} 語")
     print(f"数学記号 : {len(math):>6} 語")
+    print(f"アクセント: {len(accent):>5} 語")
     print(f"合計     : {len(allv):>6} 語  (よみ {len(per_reading)} 種)")
     print(f"候補数   : {spread}")
     print(f"多い順   : " + ", ".join(

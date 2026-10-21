@@ -1,8 +1,11 @@
 name: ci
 
+# main へ push したときの検査は release.yml が公開の前に行うので、
+# ここは main 以外のブランチとプルリクエストを対象にする。
+
 on:
   push:
-    branches: ["**"]
+    branches-ignore: [main]
   pull_request:
   workflow_dispatch:
 

@@ -1,20 +1,28 @@
 name: release
 
+# main に push されるたびに辞書をビルドし、検査して、GitHub Release として公開する。
+# タグは build 日付と実行番号から自動で付ける（例: v2026.10.19-12）。
+
 on:
   push:
-    tags: ["v*"]
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "リリースするタグ名（例: v1.0.0）"
-        required: true
 
 permissions:
   contents: write
 
+# 続けて push されても、リリースが同時に走らないようにする。
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
   release:
+    # 手動実行でも main 以外からは公開しない
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
 
@@ -22,88 +30,89 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: タグ名を決める
-        id: tag
-        run: echo "name=${{ inputs.tag || github.ref_name }}" >> "$GITHUB_OUTPUT"
-
-      - name: ビルド
+      - name: 辞書をビルド
         run: |
-          set -eu
-          mkdir -p build
-          for level in core standard full; do
-            python build.py --level "$level" --out "build/$level" \
-              | tee "build/$level.summary.txt"
-          done
-          python build.py --level core --reading kana --out build/core-kana \
-            | tee build/core-kana.summary.txt
+          set -euo pipefail
+          python build.py --out dist | tee build.log
 
       - name: 単語ファイルを検査
-        run: python tools/verify_dist.py build/core build/standard build/full build/core-kana
+        run: python tools/verify_dist.py dist
 
       - name: 配布物をまとめる
         run: |
-          set -eu
+          set -euo pipefail
           mkdir -p assets
-          # すぐ取り込めるように、既定ビルドの単語ファイルは単体でも置く
-          cp build/core/atok-math.txt  assets/atok-math.txt
-          cp build/core/atok-emoji.txt assets/atok-emoji.txt
-          cp build/core/atok-all.txt   assets/atok-all.txt
-          for level in core standard full core-kana; do
-            (cd "build/$level" && zip -q -r "../../assets/atok-dict-$level.zip" .)
-          done
+          # ATOK にそのまま取り込める 4 つの辞書
+          cp dist/atok-emoji.txt  assets/
+          cp dist/atok-math.txt   assets/
+          cp dist/atok-accent.txt assets/
+          cp dist/atok-all.txt    assets/
+          # 動作確認用ファイルと全エントリの一覧は zip にまとめる
+          (cd dist && zip -q ../assets/atok-probes.zip atok-probe*.txt master.tsv)
           ls -l assets
 
-      - name: リリースノートを作る
+      - name: タグ名を決める
+        id: tag
         run: |
-          set -eu
+          set -euo pipefail
+          echo "name=v$(date -u +%Y.%m.%d)-${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      - name: リリースノートを作る
+        env:
+          TAG: ${{ steps.tag.outputs.name }}
+        run: |
+          set -euo pipefail
+          subject="$(git log -1 --pretty=%s)"
           {
-            echo "ATOK 用 Unicode 絵文字・数学記号辞書 ${{ steps.tag.outputs.name }}"
+            echo "ATOK 用 Unicode 辞書 ${TAG}"
+            echo
+            echo "コミット: ${GITHUB_SHA:0:7} ${subject}"
+            echo
+            echo "## どれを取り込むか"
+            echo
+            echo '| ファイル | 内容 |'
+            echo '|---|---|'
+            echo '| `atok-emoji.txt` | 絵文字 |'
+            echo '| `atok-math.txt` | 数学記号・技術記号・ギリシャ文字・各書体・関数名 |'
+            echo '| `atok-accent.txt` | アクセント付きラテン文字 |'
+            echo '| `atok-all.txt` | 上の 3 つをすべて含む |'
+            echo '| `atok-probes.zip` | 動作確認用ファイルと全エントリの一覧 |'
+            echo
+            echo '各ファイルの内容は重複していません。`atok-all.txt` を取り込む場合は、'
+            echo '他の 3 つを取り込む必要はありません。'
+            echo
+            echo "## 語数"
+            echo
+            echo '```'
+            head -4 build.log
+            echo '```'
             echo
             echo "## 取り込み方"
             echo
             echo '1. 辞書ユーティリティの[辞書]→[新規作成]で専用の `.dic` を作る'
-            echo '2. ATOK プロパティ →[辞書・学習]で**標準辞書セット**にその辞書を追加する'
-            echo '3. [一括処理]→[単語一括処理]で、**登録先にその辞書を選んで** `atok-math.txt` を読み込む'
+            echo '2. ATOK プロパティ →[辞書・学習]で、標準辞書セットにその辞書を追加する'
+            echo '3. [一括処理]→[単語一括処理]で、登録先にその辞書を指定して単語ファイルを読み込む'
             echo
-            echo 'よみは `:Infty` `:Bbr` `:Eacute` `:わらう` のようにコロンで始める。'
+            echo 'よみは `:Infty` `:Bbr` `:E` `:わらう` のようにコロンで始めます。'
             echo '大文字始まりの英字よみを使うため、ATOK プロパティ →[入力・変換]→[英語]の'
-            echo '「英語入力ではスペースバーで空白を入力する」をオフにしておくこと。'
-            echo
-            echo "## 収録量"
-            echo
-            echo '| ファイル | 内容 |'
-            echo '|---|---|'
-            echo '| `atok-math.txt` / `atok-emoji.txt` / `atok-all.txt` | 既定ビルド（core）の単語ファイル |'
-            echo '| `atok-dict-core.zip` | 既定。日常的に使う範囲 |'
-            echo '| `atok-dict-standard.zip` | unicode-math 固有の記号と書体の別名も |'
-            echo '| `atok-dict-full.zip` | 別名も全部 |'
-            echo '| `atok-dict-core-kana.zip` | 大文字始まりが使えない環境向け（よみ `:いんｆｔｙ`） |'
-            echo
-            echo '各 zip には単語ファイルのほか、動作確認用の `atok-probe*.txt` と'
-            echo '全エントリの一覧 `master.tsv` が入っている。'
-            echo
-            echo "## ビルド結果"
-            echo
-            for level in core standard full core-kana; do
-              echo "### $level"
-              echo '```'
-              cat "build/$level.summary.txt"
-              echo '```'
-            done
+            echo '「英語入力ではスペースバーで空白を入力する」をオフにしてください。'
+            echo "詳しくは [README](https://github.com/${GITHUB_REPOSITORY}#readme) を参照してください。"
           } > release-notes.md
           cat release-notes.md
 
-      - name: リリースを作成
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.tag.outputs.name }}
-          name: ${{ steps.tag.outputs.name }}
-          body_path: release-notes.md
-          files: |
-            assets/atok-math.txt
-            assets/atok-emoji.txt
-            assets/atok-all.txt
-            assets/atok-dict-core.zip
-            assets/atok-dict-standard.zip
-            assets/atok-dict-full.zip
-            assets/atok-dict-core-kana.zip
+      - name: リリースを公開
+        env:
+          TAG: ${{ steps.tag.outputs.name }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            # 同じ実行の再試行で、すでにリリースがある場合は上書きする
+            gh release upload "$TAG" assets/* --clobber
+            gh release edit "$TAG" --notes-file release-notes.md
+          else
+            gh release create "$TAG" assets/* \
+              --target "$GITHUB_SHA" \
+              --title "$TAG" \
+              --notes-file release-notes.md \
+              --latest
+          fi

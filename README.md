@@ -13,8 +13,8 @@ ATOK は `(^_^)` 系の顔文字は得意ですが、`ℝ` `∑` `𝒜` `x²` `�
 :ゆびさし  → 👉 👈 👆 👇  :Mapsto   → ↦        :Argmax → 𝑎𝑟𝑔𝑚𝑎𝑥
 ```
 
-既定のビルドで 4,305 語（よみ 2,357 種）です。内訳は絵文字 306 字、
-数学・技術記号とアクセント付き文字が 3,766 語です。
+既定のビルドで 4,305 語（よみ 2,357 種）です。内訳は絵文字 539 語（306 字）、
+数学・技術記号 3,402 語、アクセント付き文字 364 語です。
 
 ## よみの考え方
 
@@ -151,20 +151,23 @@ TeX では作用素は立体で組むのが正しいのですが、Unicode の�
 
 ### 1. 単語ファイルを入手する
 
-単語ファイルはリポジトリには置いていません。GitHub Actions がタグごとに
-ビルドして [Releases](../../releases) に添付します。
+単語ファイルはリポジトリには置いていません。`main` ブランチに push されるたびに
+GitHub Actions がビルドして、[Releases](../../releases) に公開します。
+最新のリリースから取得してください。
 
-| 添付ファイル | 中身 |
-|---|---|
-| `atok-math.txt` | 数学・技術記号とアクセント付き文字 |
-| `atok-emoji.txt` | 絵文字 |
-| `atok-all.txt` | 両方 |
-| `atok-dict-core.zip` | 既定ビルド一式（単語ファイル、動作確認用ファイル、`master.tsv`） |
-| `atok-dict-standard.zip` / `atok-dict-full.zip` | 収録量を増やした版 |
-| `atok-dict-core-kana.zip` | 大文字始まりのよみが使えない環境向け |
+| 添付ファイル | 中身 | 語数 |
+|---|---|---|
+| `atok-emoji.txt` | 絵文字 | 539 |
+| `atok-math.txt` | 数学記号・技術記号・ギリシャ文字・各書体・関数名 | 3,402 |
+| `atok-accent.txt` | アクセント付きラテン文字 | 364 |
+| `atok-all.txt` | 上の 3 つをすべて含む | 4,305 |
+| `atok-probes.zip` | 動作確認用ファイルと全エントリの一覧 | |
 
-中身が重複するので、入れるのは `atok-math.txt` `atok-emoji.txt` か
-`atok-all.txt` のどちらかにしてください。
+3 つの辞書は内容が重複していません。すべて使うなら `atok-all.txt` だけを
+取り込んでください。個別に取り込む場合は、必要なものだけを選べます。
+
+リリースに載せるのは既定のビルド（`--level core --reading pascal`）です。
+ほかの収録量やよみの方式は、後述のとおり手元でビルドしてください。
 
 ### 2. ATOK の設定を 1 つ変える
 
@@ -180,11 +183,11 @@ ATOK プロパティ（Ctrl+F12）→［入力・変換］タブ →［英語］
 
 標準のユーザー辞書に混ぜると、あとから外すのが面倒になります。
 
-1. 辞書ユーティリティの［辞書］→［新規作成］で `unicode-math.dic` などを作る
+1. 辞書ユーティリティの［辞書］→［新規作成］で `unicode.dic` などを作る
 2. ATOK プロパティ →［辞書・学習］で、辞書セット一覧から**標準辞書セット**を
    選び、［辞書の追加・削除］でその辞書を追加する
 3. 辞書ユーティリティの［一括処理］→［単語一括処理］で、**登録先にその辞書を
-   指定して** `atok-math.txt` を読み込む
+   指定して** 取り込みたい単語ファイル（`atok-all.txt` など）を読み込む
 4. 辞書ユーティリティでその `.dic` を開き、語数が合っているか確かめる
 
 辞書セットの選び方には注意が必要です。スペースバーで変換されるのは
@@ -248,8 +251,9 @@ python build.py
 | ファイル | 中身 |
 |---|---|
 | `atok-emoji.txt` | 絵文字（539 語） |
-| `atok-math.txt` | 数学・技術記号とアクセント付き文字（3,766 語） |
-| `atok-all.txt` | 両方（4,305 語） |
+| `atok-math.txt` | 数学・技術記号（3,402 語） |
+| `atok-accent.txt` | アクセント付き文字（364 語） |
+| `atok-all.txt` | 上の 3 つすべて（4,305 語） |
 | `atok-probe.txt` 〜 `atok-probe5.txt` | 動作確認用 |
 | `master.tsv` | 全エントリの一覧（UTF-8） |
 | `rejected.tsv` | ATOK のよみに使えず落とした語 |
@@ -298,20 +302,22 @@ python build.py --encoding utf-8        # 文字コードを変える
 
 ## リリース
 
-タグを打つと [`.github/workflows/release.yml`](.github/workflows/release.yml) が
-各段階をビルドし、検査して Release に添付します。
+`main` ブランチに push すると、[`.github/workflows/release.yml`](.github/workflows/release.yml)
+が次の順に実行されて、GitHub Release が自動で公開されます。
 
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
+1. `python build.py` で辞書をビルドする
+2. [`tools/verify_dist.py`](tools/verify_dist.py) で単語ファイルを検査する
+3. 4 つの辞書と動作確認用の zip をまとめる
+4. `v<日付>-<実行番号>` のタグ（例: `v2026.10.19-12`）を付けて Release を作り、
+   ファイルを添付する
 
-GitHub の Actions 画面から `release` ワークフローを手動実行し、タグ名を
-入力することもできます。リリースノートには各段階の語数が入ります。
+検査で 1 件でも問題があれば、リリースは作られません。続けて push した場合は
+リリースが同時に走らないよう、順番に処理されます。Actions 画面から
+`release` ワークフローを手動実行することもできます（`main` からだけ公開されます）。
 
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml) は push と
-プルリクエストごとに走り、全段階をビルドして
-[`tools/verify_dist.py`](tools/verify_dist.py) で検査します。検査の内容は、
+`main` 以外のブランチとプルリクエストでは、
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) が収録量の各段階を
+ビルドして検査します（公開はしません）。検査の内容は、
 UTF-16LE の BOM と CR+LF 改行とヘッダー行、タブ区切りの欄数、よみ 32 文字と
 単語 100 文字の上限、よみに使えない文字の混入、同じ（よみ, 単語）の重複です。
 ローカルでも `python tools/verify_dist.py dist` で同じ検査ができます。
