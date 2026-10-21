@@ -672,8 +672,24 @@ def dedupe_sort(entries: list[Entry]) -> list[Entry]:
     return out
 
 
+PROJECT_URL = "https://github.com/torao/atok-unicode-dict"
+
+
+def notice_lines(third_party: bool) -> list[str]:
+    """単語ファイルの先頭に入れるライセンス表示（ATOK は !! の行を無視する）。"""
+    lines = [
+        f"!! ATOK Unicode 辞書 {PROJECT_URL}",
+        "!! Copyright (c) 2026 TAKAMI Torao. MIT License.",
+    ]
+    if third_party:
+        lines.append("!! TeX コマンド名の対応表は Julia の latex_symbols.jl (MIT) と")
+        lines.append("!! unicode-math の unicode-math-table.tex (LPPL 1.3c) に由来します。")
+        lines.append("!! 詳細は THIRD_PARTY_NOTICES.md を参照してください。")
+    return lines
+
+
 def write_atok(entries: list[Entry], path: Path, *, prefix: str, pos: str,
-               header: bool, encoding: str) -> None:
+               header: bool, encoding: str, third_party: bool = False) -> None:
     """ATOK の単語一括処理で読み込める単語ファイルを書き出す。
 
     既定は UTF-16LE(BOM 付き) / 改行 CR+LF。ATOK のユーザー辞書テキストは
@@ -684,6 +700,7 @@ def write_atok(entries: list[Entry], path: Path, *, prefix: str, pos: str,
     if header:
         lines.append(ATOK_HEADER)
         lines.append("!!")
+    lines += notice_lines(third_party)
     for e in entries:
         p = prefix if e.prefixed else ""
         lines.append(f"{p}{e.reading}\t{e.word}\t{pos}\t")
@@ -1029,9 +1046,10 @@ def main(argv: list[str] | None = None) -> int:
     common = dict(prefix=args.prefix, pos=args.pos,
                   header=not args.no_header, encoding=args.encoding)
     write_atok(emoji, out_dir / "atok-emoji.txt", **common)
-    write_atok(math, out_dir / "atok-math.txt", **common)
+    # TeX 表に由来するデータを含むファイルには、第三者の表示も入れる
+    write_atok(math, out_dir / "atok-math.txt", third_party=True, **common)
     write_atok(accent, out_dir / "atok-accent.txt", **common)
-    write_atok(allv, out_dir / "atok-all.txt", **common)
+    write_atok(allv, out_dir / "atok-all.txt", third_party=True, **common)
     write_probe(out_dir / "atok-probe.txt", args.prefix, args.encoding)
     write_probe2(out_dir / "atok-probe2.txt", args.pos, args.encoding)
     write_probe3(out_dir / "atok-probe3.txt", args.prefix, args.pos, args.encoding)

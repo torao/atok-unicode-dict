@@ -47,8 +47,12 @@ jobs:
           cp dist/atok-math.txt   assets/
           cp dist/atok-accent.txt assets/
           cp dist/atok-all.txt    assets/
+          # ライセンスと第三者の表示
+          cp LICENSE              assets/LICENSE.txt
+          cp THIRD_PARTY_NOTICES.md assets/
           # 動作確認用ファイルと全エントリの一覧は zip にまとめる
           (cd dist && zip -q ../assets/atok-probes.zip atok-probe*.txt master.tsv)
+          zip -q -j assets/atok-probes.zip LICENSE THIRD_PARTY_NOTICES.md
           ls -l assets
 
       - name: タグ名を決める
@@ -77,6 +81,7 @@ jobs:
             echo '| `atok-accent.txt` | アクセント付きラテン文字 |'
             echo '| `atok-all.txt` | 上の 3 つをすべて含む |'
             echo '| `atok-probes.zip` | 動作確認用ファイルと全エントリの一覧 |'
+            echo '| `LICENSE.txt` / `THIRD_PARTY_NOTICES.md` | ライセンスと第三者データの表示 |'
             echo
             echo '各ファイルの内容は重複していません。`atok-all.txt` を取り込む場合は、'
             echo '他の 3 つを取り込む必要はありません。'
@@ -97,6 +102,12 @@ jobs:
             echo '大文字始まりの英字よみを使うため、ATOK プロパティ →[入力・変換]→[英語]の'
             echo '「英語入力ではスペースバーで空白を入力する」をオフにしてください。'
             echo "詳しくは [README](https://github.com/${GITHUB_REPOSITORY}#readme) を参照してください。"
+            echo
+            echo "## ライセンス"
+            echo
+            echo 'MIT License です。`atok-math.txt` と `atok-all.txt` には、Julia（MIT）と'
+            echo 'unicode-math（LPPL 1.3c）に由来するデータが含まれます。詳しくは'
+            echo '`THIRD_PARTY_NOTICES.md` を参照してください。'
           } > release-notes.md
           cat release-notes.md
 
