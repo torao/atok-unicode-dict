@@ -1,11 +1,18 @@
 name: release
 
-# main に push されるたびに辞書をビルドし、検査して、GitHub Release として公開する。
+# main に push されたとき、辞書の生成に関わるファイルが変わっていれば
+# 辞書をビルドし、検査して、GitHub Release として公開する。
+# README などの文書だけを変更した push では起動しない。
 # タグは build 日付と実行番号から自動で付ける（例: v2026.10.19-12）。
 
 on:
   push:
     branches: [main]
+    paths:
+      - build.py
+      - romaji.py
+      - data/**
+      - .github/workflows/release.yml
   workflow_dispatch:
 
 permissions:
@@ -50,9 +57,6 @@ jobs:
           # ライセンスと第三者の表示
           cp LICENSE              assets/LICENSE.txt
           cp THIRD_PARTY_NOTICES.md assets/
-          # 動作確認用ファイルと全エントリの一覧は zip にまとめる
-          (cd dist && zip -q ../assets/atok-probes.zip atok-probe*.txt master.tsv)
-          zip -q -j assets/atok-probes.zip LICENSE THIRD_PARTY_NOTICES.md
           ls -l assets
 
       - name: タグ名を決める
@@ -80,7 +84,6 @@ jobs:
             echo '| `atok-math.txt` | 数学記号・技術記号・ギリシャ文字・各書体・関数名 |'
             echo '| `atok-accent.txt` | アクセント付きラテン文字 |'
             echo '| `atok-all.txt` | 上の 3 つをすべて含む |'
-            echo '| `atok-probes.zip` | 動作確認用ファイルと全エントリの一覧 |'
             echo '| `LICENSE.txt` / `THIRD_PARTY_NOTICES.md` | ライセンスと第三者データの表示 |'
             echo
             echo '各ファイルの内容は重複していません。`atok-all.txt` を取り込む場合は、'
@@ -94,11 +97,11 @@ jobs:
             echo
             echo "## 取り込み方"
             echo
-            echo '1. 辞書ユーティリティの[辞書]→[新規作成]で専用の `.dic` を作る'
-            echo '2. ATOK プロパティ →[辞書・学習]で、標準辞書セットにその辞書を追加する'
-            echo '3. [一括処理]→[単語一括処理]で、登録先にその辞書を指定して単語ファイルを読み込む'
+            echo '1. 辞書ユーティリティの[ファイル]→[新規作成]で専用の辞書を作る'
+            echo '2. その辞書の[ツール]→[ファイルから登録・削除]で、単語ファイルを登録する'
+            echo '3. ATOK プロパティ →[辞書・学習]で、標準辞書セットにその辞書を追加する'
             echo
-            echo 'よみは `:Infty` `:Bbr` `:E` `:わらう` のようにコロンで始めます。'
+            echo 'よみは `:Infty` `:B` `:E` `:わらう` のようにコロンで始めます。'
             echo '大文字始まりの英字よみを使うため、ATOK プロパティ →[入力・変換]→[英語]の'
             echo '「英語入力ではスペースバーで空白を入力する」をオフにしてください。'
             echo "詳しくは [README](https://github.com/${GITHUB_REPOSITORY}#readme) を参照してください。"

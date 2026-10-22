@@ -2,11 +2,24 @@ name: ci
 
 # main へ push したときの検査は release.yml が公開の前に行うので、
 # ここは main 以外のブランチとプルリクエストを対象にする。
+# 辞書の生成と検査に関わるファイルが変わったときだけ起動する。
 
 on:
   push:
     branches-ignore: [main]
+    paths:
+      - build.py
+      - romaji.py
+      - data/**
+      - tools/**
+      - .github/workflows/ci.yml
   pull_request:
+    paths:
+      - build.py
+      - romaji.py
+      - data/**
+      - tools/**
+      - .github/workflows/ci.yml
   workflow_dispatch:
 
 jobs:
