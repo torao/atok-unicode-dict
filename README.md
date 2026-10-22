@@ -264,8 +264,8 @@ unicode-math の `unicode-math-table.tex` (LPPL 1.3c) をもとに作ってい�
 
 ## 参考リンク
 
-- [たくさんの単語を一度に登録したい (単語ファイルを作成して、辞書に登録する方法) ](https://support.justsystems.com/faq/1032/app/servlet/qadoc?QID=015038) — ジャストシステム
-- [ [shift] キーを押すと、英字入力モードに切り替わるようにする](https://support.justsystems.com/faq/1032/app/servlet/qadoc?QID=044845) — ジャストシステム
+- [たくさんの単語を一度に登録したい (単語ファイルを作成して、辞書に登録する方法)](https://support.justsystems.com/faq/1032/app/servlet/qadoc?QID=015038) — ジャストシステム
+- [[shift] キーを押すと、英字入力モードに切り替わるようにする](https://support.justsystems.com/faq/1032/app/servlet/qadoc?QID=044845) — ジャストシステム
 - [辞書の使い方](https://atok.com/other/support/howtouse/mac/dc/pgs/dc_dc_use.htm) — ATOK.com
 - [絵文字入力方法まとめ](https://zenn.dev/amane/articles/f826fc6fbb9527) — かたぎりあまね。大文字から始まる読みでローマ字変換を避ける方法
 - [peaceiris/emoji-ime-dictionary](https://github.com/peaceiris/emoji-ime-dictionary) — 日本語 IME 向けの絵文字辞書

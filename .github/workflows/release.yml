@@ -74,9 +74,9 @@ jobs:
           {
             echo "ATOK 用 Unicode 辞書 ${TAG}"
             echo
-            echo "コミット: ${GITHUB_SHA:0:7} ${subject}"
+            echo "COMMIT: ${GITHUB_SHA:0:7}"
             echo
-            echo "## どれを取り込むか"
+            echo "## 配布する Unicode 辞書"
             echo
             echo '| ファイル | 内容 |'
             echo '|---|---|'
@@ -86,31 +86,29 @@ jobs:
             echo '| `atok-all.txt` | 上の 3 つをすべて含む |'
             echo '| `LICENSE.txt` / `THIRD_PARTY_NOTICES.md` | ライセンスと第三者データの表示 |'
             echo
-            echo '各ファイルの内容は重複していません。`atok-all.txt` を取り込む場合は、'
-            echo '他の 3 つを取り込む必要はありません。'
+            echo '`atok-all.txt` には他の 3 つのすべての語が含まれています。'
             echo
-            echo "## 語数"
+            echo "## 収録語数"
             echo
             echo '```'
             head -4 build.log
             echo '```'
             echo
-            echo "## 取り込み方"
+            echo "## ATOK ユーザ辞書への登録方法"
             echo
-            echo '1. 辞書ユーティリティの[ファイル]→[新規作成]で専用の辞書を作る'
-            echo '2. その辞書の[ツール]→[ファイルから登録・削除]で、単語ファイルを登録する'
-            echo '3. ATOK プロパティ →[辞書・学習]で、標準辞書セットにその辞書を追加する'
+            echo '1. 辞書ユーティリティの[ファイル]→[新規作成]で専用の辞書を作る。'
+            echo '2. その辞書の[ツール]→[ファイルから登録・削除]で、単語ファイルを登録する。'
+            echo '3. ATOK プロパティ →[辞書・学習]で、標準辞書セットにその辞書を追加する。'
             echo
-            echo 'よみは `:Infty` `:B` `:E` `:わらう` のようにコロンで始めます。'
-            echo '大文字始まりの英字よみを使うため、ATOK プロパティ →[入力・変換]→[英語]の'
-            echo '「英語入力ではスペースバーで空白を入力する」をオフにしてください。'
+            echo 'すべての読みは `:Infty` `:B` `:E` `:わらう` のようにコロンで始めます。'
+            echo '大文字始まりの英字読みを使うため、ATOK プロパティ →[入力・変換]→[英語]の「英語入力ではスペースバーで空白を入力する」をオフにしてください。'
             echo "詳しくは [README](https://github.com/${GITHUB_REPOSITORY}#readme) を参照してください。"
             echo
             echo "## ライセンス"
             echo
-            echo 'MIT License です。絵文字の読みは Mozc（BSD 3-Clause）、TeX のコマンド名の'
-            echo '対応表は Julia（MIT）と unicode-math（LPPL 1.3c）に由来します。詳しくは'
-            echo '`THIRD_PARTY_NOTICES.md` を参照してください。'
+            echo 'MIT License'
+            echo
+            echo '絵文字の読みは Mozc (BSD 3-Clause)、TeX のコマンド名の対応表は Julia (MIT)と unicode-math (LPPL 1.3c) に由来します。詳しくは `THIRD_PARTY_NOTICES.md` を参照してください。'
           } > release-notes.md
           cat release-notes.md
 
