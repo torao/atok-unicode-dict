@@ -1,9 +1,52 @@
 # Third-party notices
 
-`data/tex-symbols.tsv` and the dictionary files generated from it
-(`atok-math.txt`, `atok-all.txt`) contain data derived from the following works.
-`data/tex-symbols.tsv` is a table of TeX command names and Unicode code points
-extracted by `tools/gen_tex_symbols.py`; it does not contain the original files.
+This project contains data derived from the following works.
+
+| File | Derived from |
+|---|---|
+| `data/emoji-auto.tsv`, `atok-emoji.txt`, `atok-all.txt` | Mozc `emoji_data.tsv` |
+| `data/tex-symbols.tsv`, `atok-math.txt`, `atok-all.txt` | Julia `latex_symbols.jl`, unicode-math `unicode-math-table.tex` |
+
+`data/emoji-auto.tsv` and `data/tex-symbols.tsv` are tables extracted by
+`tools/gen_emoji.py` and `tools/gen_tex_symbols.py`. They do not contain the
+original files.
+
+## Mozc — `src/data/emoji/emoji_data.tsv`
+
+<https://github.com/google/mozc/blob/master/src/data/emoji/emoji_data.tsv>
+
+The list of emoji and their hiragana readings are taken from this file.
+
+```text
+Copyright 2010-2018, Google Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+  * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  * Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+  * Neither the name of Google Inc. nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
 
 ## Julia — `stdlib/REPL/src/latex_symbols.jl`
 

@@ -160,7 +160,10 @@ def load_tsv(path: Path, group: str) -> list[Entry]:
         return entries
     for lineno, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         line = raw.rstrip("\n")
-        if not line.strip() or line.lstrip().startswith("#"):
+        # "# " で始まる行と "#" だけの行がコメント。#️⃣ の読み "#" のように
+        # "#" で始まるデータ行もあるので、"#" だけでは判定しない
+        stripped = line.strip()
+        if not stripped or stripped == "#" or stripped.startswith("# "):
             continue
         cols = line.split("\t")
         if len(cols) < 2:
@@ -675,21 +678,29 @@ def dedupe_sort(entries: list[Entry]) -> list[Entry]:
 PROJECT_URL = "https://github.com/torao/atok-unicode-dict"
 
 
-def notice_lines(third_party: bool) -> list[str]:
+# 単語ファイルに含まれる第三者データの表示
+THIRD_PARTY = {
+    "emoji": "!! 絵文字の読みは Mozc の emoji_data.tsv (BSD 3-Clause) に由来します。",
+    "tex": "!! TeX コマンド名の対応表は Julia の latex_symbols.jl (MIT) と"
+           " unicode-math の unicode-math-table.tex (LPPL 1.3c) に由来します。",
+}
+
+
+def notice_lines(sources: tuple[str, ...]) -> list[str]:
     """単語ファイルの先頭に入れるライセンス表示（ATOK は !! の行を無視する）。"""
     lines = [
         f"!! ATOK Unicode 辞書 {PROJECT_URL}",
         "!! Copyright (c) 2026 TAKAMI Torao. MIT License.",
     ]
-    if third_party:
-        lines.append("!! TeX コマンド名の対応表は Julia の latex_symbols.jl (MIT) と")
-        lines.append("!! unicode-math の unicode-math-table.tex (LPPL 1.3c) に由来します。")
+    lines += [THIRD_PARTY[s] for s in sources]
+    if sources:
         lines.append("!! 詳細は THIRD_PARTY_NOTICES.md を参照してください。")
     return lines
 
 
 def write_atok(entries: list[Entry], path: Path, *, prefix: str, pos: str,
-               header: bool, encoding: str, third_party: bool = False) -> None:
+               header: bool, encoding: str,
+               third_party: tuple[str, ...] = ()) -> None:
     """ATOK の単語一括処理で読み込める単語ファイルを書き出す。
 
     既定は UTF-16LE(BOM 付き) / 改行 CR+LF。ATOK のユーザー辞書テキストは
@@ -773,7 +784,8 @@ def expand_readings(entries: list[Entry], modes: list[str]) -> list[Entry]:
 
 def collect(cfg: dict) -> tuple[list[Entry], list[Entry], list[Entry]]:
     """絵文字・数学記号・アクセント付き文字を別々のリストで返す。"""
-    emoji = load_tsv(DATA / "emoji.tsv", "emoji")
+    # 絵文字は、Mozc と同じ規則で変換できるように Mozc の読みだけを使う
+    emoji = load_tsv(DATA / "emoji-auto.tsv", "emoji")
 
     math: list[Entry] = []
     math += load_tsv(DATA / "symbols.tsv", "math")
@@ -835,11 +847,11 @@ def main(argv: list[str] | None = None) -> int:
 
     common = dict(prefix=args.prefix, pos=args.pos,
                   header=not args.no_header, encoding=args.encoding)
-    write_atok(emoji, out_dir / "atok-emoji.txt", **common)
-    # TeX 表に由来するデータを含むファイルには、第三者の表示も入れる
-    write_atok(math, out_dir / "atok-math.txt", third_party=True, **common)
+    # 第三者のデータを含むファイルには、その表示も入れる
+    write_atok(emoji, out_dir / "atok-emoji.txt", third_party=("emoji",), **common)
+    write_atok(math, out_dir / "atok-math.txt", third_party=("tex",), **common)
     write_atok(accent, out_dir / "atok-accent.txt", **common)
-    write_atok(allv, out_dir / "atok-all.txt", third_party=True, **common)
+    write_atok(allv, out_dir / "atok-all.txt", third_party=("emoji", "tex"), **common)
     write_master(allv, out_dir / "master.tsv", args.prefix)
 
     if bad:

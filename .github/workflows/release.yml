@@ -108,8 +108,8 @@ jobs:
             echo
             echo "## ライセンス"
             echo
-            echo 'MIT License です。`atok-math.txt` と `atok-all.txt` には、Julia（MIT）と'
-            echo 'unicode-math（LPPL 1.3c）に由来するデータが含まれます。詳しくは'
+            echo 'MIT License です。絵文字の読みは Mozc（BSD 3-Clause）、TeX のコマンド名の'
+            echo '対応表は Julia（MIT）と unicode-math（LPPL 1.3c）に由来します。詳しくは'
             echo '`THIRD_PARTY_NOTICES.md` を参照してください。'
           } > release-notes.md
           cat release-notes.md
